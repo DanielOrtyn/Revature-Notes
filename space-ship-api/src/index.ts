@@ -2,6 +2,7 @@ import express from "express"
 import bodyParser from 'body-parser'
 import { userRouter } from "./controler/user-router";
 import { spaceshipRouter } from "./controler/spaceship-router";
+import { sessionMiddleware } from "./middleware/session.middleware";
 
 const app = express()
 
@@ -11,6 +12,7 @@ app.use((req, res, next) => {
 })
 
 app.use(bodyParser.json())
+app.use(sessionMiddleware)
 
 app.get(`/test`, (req, res) => {
     console.log('req processed.')
