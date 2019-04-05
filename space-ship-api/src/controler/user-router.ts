@@ -3,6 +3,7 @@
 import express from 'express'
 import { users } from '../state';
 import { User } from '../model/user';
+import { authMiddleware } from '../middleware/aut.middleware';
 
 
 /**
@@ -15,10 +16,14 @@ export const userRouter = express.Router()
  * find all users
  * endpoint: /users
  */
-userRouter.get(``, (req, res) => {
-    console.log(`retreiving all users`)
-    res.send(users)
-})
+userRouter.get(``,
+    [authMiddleware(['admin']),
+    (req, res) => {
+        console.log(`retreiving all users`)
+        res.send(users)
+    }
+    ]
+)
 
 /**
  * find specific user
@@ -69,7 +74,7 @@ userRouter.patch(``, (req, res) => {
     }
     else {
         for (let field in user) {
-            if(req.body[field] !== undefined){
+            if (req.body[field] !== undefined) {
                 user[field] = req.body[field]
             }
         }
@@ -78,3 +83,16 @@ userRouter.patch(``, (req, res) => {
 })
 
 
+userRouter.post(`/login`, (req, res) => {
+    console.log(`login request made`)
+    const { username, password } = req.body
+    const user = users.find(u => u.username === username && u.password === password)
+
+    if (user) {
+        req.session.user = user
+        res.end()
+    }
+    else {
+        res.sendStatus(401)
+    }
+})
