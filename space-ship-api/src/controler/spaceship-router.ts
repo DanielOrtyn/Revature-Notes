@@ -2,6 +2,7 @@
 
 import express from 'express'
 import { SpaceShip } from '../model/SpaceShip';
+import { spaceships } from '../state';
 
 
 /**
@@ -16,7 +17,7 @@ export const spaceshipRouter = express.Router()
  */
 spaceshipRouter.get(``, (req, res) => {
     console.log(`retreiving all spaceships`)
-    res.send('all spaceships')
+    res.send(spaceships)
 })
 
 /**
@@ -42,9 +43,9 @@ spaceshipRouter.get(`/owner/:id`, (req, res) => {
  * endpoint: /spaceships
  */
 spaceshipRouter.post(``, (req, res) => {
-    let newSpaceShip = new SpaceShip(req.body[`shipId`], req.body[`name`],
-        req.body[`weight`], req.body[`speed`],
-        req.body[`description`], req.body[`owner`])
+    let newSpaceShip = new SpaceShip(req.body[`shipId`], req.body[`owner`],
+        req.body[`name`], req.body[`weight`],
+        req.body[`speed`], req.body[`description`])
     console.log(newSpaceShip)
     res.status(201)
     res.send(newSpaceShip)

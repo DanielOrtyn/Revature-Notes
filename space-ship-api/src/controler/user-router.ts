@@ -1,6 +1,8 @@
 
 
 import express from 'express'
+import { users } from '../state';
+import { User } from '../model/user';
 
 
 /**
@@ -15,7 +17,7 @@ export const userRouter = express.Router()
  */
 userRouter.get(``, (req, res) => {
     console.log(`retreiving all users`)
-    res.send('all users')
+    res.send(users)
 })
 
 /**
@@ -23,8 +25,10 @@ userRouter.get(``, (req, res) => {
  * endpoint: /users/:id
  */
 userRouter.get(`/:id`, (req, res) => {
+    const id: number = req.params.id
     console.log(`retreiving user with id: ${req.params.id}`)
-    res.send(`here is the user with id: ${req.params.id}`)
+    const user = users.find(u => u.userId === id)
+    res.send(user)
 })
 
 /**
@@ -42,10 +46,13 @@ userRouter.get(`/username/:username`, (req, res) => {
  */
 userRouter.post(``, (req, res) => {
     console.log(`recieved \'users\' endpoint post request`)
-    for (let key in req.body) {
-        console.log(`posted user is: ${key}: ${req.body[key]}`)
-    }
-    res.send(`saved user`)
+    let newUser = new User()
+    newUser[`userId`] = req.body[`userId`]
+    newUser[`username`] = req.body[`username`]
+    newUser[`password`] = req.body[`password`]
+    newUser[`name`] = req.body[`name`]
+    users.push(newUser)
+    res.send(newUser)
 })
 
 /**
@@ -54,7 +61,20 @@ userRouter.post(``, (req, res) => {
  */
 userRouter.patch(``, (req, res) => {
     console.log(`recieved \'users\' endpoint patch request`)
-    res.send(`updated user: `)
+    const id: number = req.body.userId
+    console.log(`retreiving user with id: ${req.params.id}`)
+    const user = users.find(u => u.userId === id)
+    if (!user) {
+        res.sendStatus(404)
+    }
+    else {
+        for (let field in user) {
+            if(req.body[field] !== undefined){
+                user[field] = req.body[field]
+            }
+        }
+        res.send(`updated user: ${id}`)
+    }
 })
 
 

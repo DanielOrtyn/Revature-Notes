@@ -6,9 +6,8 @@ export class SpaceShip {
     speed: number
     description: string
 
-    constructor(newShipId = 0, newName = ``,
-        newWeight = 0, newSpeed = 0,
-        newDescription = ``, newOwner = 0) {
+    constructor(newShipId = 0, newOwner = 0, newName = ``,
+        newWeight = 0, newSpeed = 0, newDescription = ``) {
         this.shipId = newShipId
         this.name = newName
         this.weight = newWeight
