@@ -1,6 +1,7 @@
 import express from "express"
 import bodyParser from 'body-parser'
-import { SpaceShip } from "./SpaceShip"
+import { userRouter } from "./controler/user-router";
+import { spaceshipRouter } from "./controler/spaceship-router";
 
 const app = express()
 
@@ -24,14 +25,20 @@ app.post(`/test`, (req, res) => {
 })
 
 
-app.get('/spaceships', (req, res) => {
-    console.log(`spaceships get request recieved`)
-    res.json([new SpaceShip(`Eagle 5`, `SpaceRV`), new SpaceShip(`Death Star`, `Planatoid`)])
-})
+// app.get('/spaceships', (req, res) => {
+//     console.log(`spaceships get request recieved`)
+//     res.json([new SpaceShip(`Eagle 5`, `SpaceRV`), new SpaceShip(`Death Star`, `Planatoid`)])
+// })
 
 app.get('/hello', (req, res) => {
     console.log(`hello get request recieved`)
     res.json(`Hello Person!!!`)
 })
 
-app.listen(8080)
+/**
+ * Register Routers
+ */
+app.use(`/users`, userRouter)
+app.use(`/spaceships`, spaceshipRouter)
+app.listen(8080);
+console.log(`end of file`)
