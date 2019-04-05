@@ -1,5 +1,6 @@
 import express from "express"
-import { SpaceShip } from "./SpaceShip";
+import bodyParser from 'body-parser'
+import { SpaceShip } from "./SpaceShip"
 
 const app = express()
 
@@ -8,10 +9,20 @@ app.use((req, res, next) => {
     next()
 })
 
+app.use(bodyParser.json())
+
 app.get(`/test`, (req, res) => {
     console.log('req processed.')
     res.send(`Here is the response data`)
 })
+
+app.post(`/test`, (req, res) => {
+    console.log('posted to test.')
+    let body = req.body
+    console.log(body)
+    res.send(`saved test call`)
+})
+
 
 app.get('/spaceships', (req, res) => {
     console.log(`spaceships get request recieved`)

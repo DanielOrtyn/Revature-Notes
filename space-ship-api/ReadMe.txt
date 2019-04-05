@@ -21,6 +21,8 @@ code .
 npm install --save express
 npm install --save --dev @types/express
 npm install --save -dev nodemon				// restarts server whenever file changes are saved
+npm install --save body-parser
+
 // create files(index.js and tsconfig.json)
 npm start
 // go to http://localhost:8080/test
