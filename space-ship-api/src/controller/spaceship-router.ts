@@ -8,8 +8,7 @@ import { spaceships } from '../state';
 /**
  * Spaceship router will handle all requests with /spaceship
  */
-export const spaceshipRouter = express.Router()
-
+export  const spaceshipRouter = express.Router();
 
 /**
  * find all spaceships
